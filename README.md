@@ -1,294 +1,208 @@
+ParkEasy -- Smart Parking Management and Reservation System
+ParkEasy is a full-stack smart parking management and reservation system
+built with React, Node.js, Express, MongoDB, and Socket.IO. It helps
+users discover parking facilities, reserve slots, manage vehicles, and
+use QR-based parking passes.
 
-### Security and deployment notes
+The application includes separate experiences for drivers, parking
+owners, and administrators. Additional features include Parking Space
+Handover, Smart Arrival, EcoPark rewards, notifications, and parking
+analytics.
+Project status: Academic/demo project. The included payment flow
+is simulated and does not process real payments.
 
-- Authentication uses an HttpOnly session cookie; the frontend no longer stores JWTs in localStorage.
-- State-changing requests are restricted to configured `CLIENT_URL` origins.
-- Owner/location updates use an explicit field allow-list; system-controlled fields cannot be mass-assigned.
-- Socket.IO authenticates from the same server session cookie.
-- Security-sensitive transaction/voucher identifiers use Node crypto instead of `Math.random()`.
-- The included payment gateway remains **simulated/test-only**. Configure a real provider and server-side signature/webhook verification before accepting real money.
-- The in-memory rate limiter is suitable for a single academic/demo server. For multiple backend instances, replace the limiter with Redis/BullMQ-backed infrastructure.
-
-# ParkEasy – Rebuilt Final
-
-ParkEasy is a React + Node/Express + MongoDB + Socket.IO smart parking management system. This rebuild **extends the existing application** rather than replacing it.
-
-## Preserved modules
-
-- User registration/login and role-based dashboards
-- Owner parking-location and slot management
-- Admin management and analytics
-- Parking search and maps/location
-- Vehicle management
-- Slot layout and reservation
-- Simulated/test payment flow
-- Secure QR parking pass and gate check-in/check-out
+Features
+Driver
+- User registration, login, and profile management
+- Search for parking facilities and view slot availability
+- Vehicle management and booking history
+- Parking slot reservation
+- Simulated payment flow
+- QR parking passes and gate check-in/check-out
 - Parking Space Handover
-- Smart Arrival
-- EcoPark and Eco Points
-- Notifications
-- Socket.IO real-time updates
-- Analytics and revenue views
-
-## Reliability improvements
-
-### Reservation and slot concurrency
-
-- Slot reservation uses an atomic `Available -> Reserved` database update.
-- A reservation gets a short payment hold (`PAYMENT_HOLD_MINUTES`, default 8 minutes).
-- Unpaid/abandoned holds are released automatically every 30 seconds.
-- Booking, payment, slot and availability updates use MongoDB transactions when the deployment supports transactions.
-- Standalone local MongoDB remains supported through atomic updates and compensating cleanup.
-- Stored `availableSlots` is reconciled from actual slot state after state-changing operations, so it cannot be decremented below the real number of available bays.
-- Manual owner/admin actions cannot directly force a slot into `Reserved`, `Occupied` or `Handover_Pending`; those are system-controlled states.
-
-### Payment safety
-
-- The payable amount always comes from the server-side booking record.
-- One payment record is allowed per booking.
-- Concurrent/double-click payment attempts are rejected using an atomic booking state transition.
-- Payment states include pending, processing, success, failed and refunded.
-- Expired holds cannot be paid.
-- Eco Point redemption and booking rewards are processed with the payment state change where transactions are available.
-- The gateway is explicitly a **ParkEasy simulated/test gateway**. It does not move real money.
-
-### QR and gate
-
-- QR passes contain a cryptographically random server-generated token.
-- Gate verification requires an authenticated session.
-- Users can verify only their own passes; owners can verify passes belonging to their own facilities; admins can verify platform-wide.
-- Check-in validates payment, booking state and the configured arrival window.
-- Check-out is atomic and can only happen once.
-- Slot state must match the booking before a gate transition is accepted.
-- `locationId` can be supplied by a future physical gate/scanner integration to prevent a pass being used at another facility.
-
-### Handover
-
-- Only an active paid parking session can announce departure.
-- A waiting driver claims an available handover atomically.
-- Two simultaneous claims cannot both succeed.
-- Departure completion atomically closes the original session and releases the slot.
-- The waiting driver is notified after the slot is actually released.
-
-### Real-time architecture
-
-- Socket.IO remains part of the application.
-- Socket connections authenticate using the same JWT identity as the API.
-- Location rooms are rejoined after reconnect.
-- The server can send a complete `locationSnapshot` after reconnect/room join.
-- Database state remains the source of truth; Socket.IO is only the delivery/update channel.
-- Slot records include `availabilitySource` (`application`, `sensor`, or `camera`) and `sensorStatus`.
-- The current project does **not fake IoT/sensor data**. Default availability is application-based. Sensor/camera integration can be added later without changing the booking state model.
-
-### Security and API reliability
-
-- JWT authentication and role authorization are preserved.
-- User booking/payment access is scoped to the authenticated user.
-- Owners are restricted to their own parking locations.
-- Admin routes require the admin role.
-- Request body size is limited.
-- Strict CORS is enabled from `CLIENT_URL`.
-- Security headers are applied with Helmet when the package is available, with a built-in secure-header fallback so the project remains self-contained.
-- Authentication/API rate limiting is enabled without adding a runtime dependency.
-- Invalid IDs, validation errors, duplicate keys and database outages return controlled API errors.
-- `/api/health` reports service/database state.
-- `/api/ready` is a readiness check suitable for deployment.
-- MongoDB disconnect/reconnect events are logged.
-- Graceful SIGINT/SIGTERM shutdown closes Socket.IO, HTTP and MongoDB cleanly.
-
-## Important MongoDB deployment note
-
-For full multi-document transaction guarantees, use MongoDB Atlas or a MongoDB replica set. A standalone local MongoDB server does not support transactions. ParkEasy detects this and falls back to atomic slot/booking transitions with compensating cleanup, so the academic local setup remains usable.
-
-## Run locally
-
-### 1. Backend
-
-```bash
-cd server
+- Smart Arrival recommendations
+- EcoPark rewards and Eco Points
+- Notifications and real-time updates
+Parking owner
+- Manage parking facilities and slots
+- Configure parking prices
+- View and manage reservations
+- View revenue and booking analytics
+Administrator
+- Manage users, owners, locations, bookings, and payments
+- View platform analytics and revenue information
+Real-time features
+- Socket.IO communication
+- Parking status updates
+- Reconnection support and location snapshots
+Technology Stack
+  Area                      Technology
+  Frontend                  React, Vite
+  Styling                   Tailwind CSS
+  Backend                   Node.js, Express.js
+  Database                  MongoDB, Mongoose
+  Real-time communication   Socket.IO
+  AI integration            Gemini API, when configured
+  Parking pass              QR-based verification
+Project Structure
+ParkEasy/
+├── client/                 # React frontend
+│   └── src/
+│       ├── components/
+│       ├── context/
+│       ├── layouts/
+│       ├── pages/
+│       └── services/
+├── server/                 # Express backend
+│   ├── config/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── seed/
+│   ├── services/
+│   └── server.js
+├── package.json
+├── .env.example
+└── README.md
+Getting Started
+Prerequisites
+- Node.js and npm
+- MongoDB Community Server or MongoDB Atlas
+- Git
+1. Clone the repository
+git clone https://github.com/VatsalyaKV/ParkEasy.git
+cd ParkEasy
+2. Install dependencies
+From the project root, run:
 npm install
-```
-
-Create `server/.env`:
-
-```env
-PORT=5000
-NODE_ENV=development
+npm install --prefix server
+npm install --prefix client
+3. Configure environment variables
+Review the environment templates before starting the application:
+- .env.example
+- server/.env.example
+- client/.env.example
+Create the local .env files required by the project and use the
+variable names expected by the code. For a local MongoDB instance, the
+database URI may look like this:
 MONGODB_URI=mongodb://127.0.0.1:27017/parkeasy
-JWT_SECRET=replace_with_at_least_32_random_characters
-JWT_EXPIRE=7d
+PORT=5000
 CLIENT_URL=http://localhost:5173
-PAYMENT_HOLD_MINUTES=8
-MONGO_MAX_POOL_SIZE=20
-```
-
-Start:
-
-```bash
+These are example values only. Check server/.env.example for the full
+configuration required by your version of the project. Do not commit
+real secrets, passwords, API keys, or production environment files.
+4. Start the backend
+cd server
 npm run dev
-```
-
-or:
-
-```bash
-npm start
-```
-
-### 2. Frontend
-
-```bash
+If the project does not provide a dev script, check
+server/package.json for the available scripts.
+5. Start the frontend
+Open a second terminal from the project root:
 cd client
-npm install
 npm run dev
-```
+Open the local URL printed by Vite. It is commonly
+http://localhost:5173.
 
-Open the Vite URL shown in the terminal, normally `http://localhost:5173`.
+Check the scripts in the root, server/package.json, and
+client/package.json if a command is not available.
+API Health Checks
+The backend includes the following health endpoints, if enabled in the
+current configuration:
+- GET /api/health --- service health
+- GET /api/ready --- readiness status
+Check the server response to confirm the actual status and response
+format.
+Reliability and Security Notes
+The project includes code intended to improve reservation consistency,
+access control, and error handling. Verify these behaviors against the
+current implementation before using the application in production.
+- Slot reservations use database updates to help prevent two users
+  from reserving the same slot.
+- Reservation holds can expire and release slots when payment is not
+  completed.
+- The server should determine payable amounts from booking records
+  rather than trusting client-submitted amounts.
+- User, owner, and administrator access should be restricted according
+  to role and resource ownership.
+- Socket.IO is used to deliver real-time updates; persisted database
+  state should remain the source of truth.
+- Configure allowed frontend origins and authentication secrets
+  through environment variables.
+- Use HTTPS and secure production cookie settings when deploying
+  publicly.
+MongoDB transactions
+Full multi-document transaction support requires MongoDB Atlas or a
+MongoDB replica-set deployment. A standalone local MongoDB server does
+not support multi-document transactions. Test the application's fallback
+behavior in the environment you intend to use.
+Payment limitation
+The included payment gateway is simulated/test-only. It does not
+transfer real money. Before accepting payments, integrate a real
+provider and implement server-side payment verification,
+webhook/signature validation, idempotency, and reconciliation.
+Scaling limitations
+- An in-memory rate limiter is suitable only for a single-server demo;
+  distributed deployments need a shared store.
+- Multi-instance Socket.IO deployments may need a shared adapter.
+- Physical parking sensors, cameras, number-plate recognition, and
+  boom barriers are not connected unless separately integrated.
+Testing Checklist
+Use this checklist when manually testing the application:
+- [ ] Register and log in
+- [ ] Add a vehicle
+- [ ] Search for a parking facility
+- [ ] View available slots
+- [ ] Create a reservation
+- [ ] Complete a simulated payment
+- [ ] Open the QR parking pass
+- [ ] Check in and verify the slot state
+- [ ] Check out and verify the slot state
+- [ ] Check booking history and notifications
+- [ ] Verify Eco Points behavior
+- [ ] Test simultaneous reservation attempts for the same slot
+- [ ] Test expired payment holds
+- [ ] Test access to another user's booking
+- [ ] Test owner access to facilities they do not own
+- [ ] Disconnect and reconnect Socket.IO and verify the latest state
+These are test steps, not a claim that every test has already passed.
+ParkEasy AI and Location Setup
+AI and location features require the relevant integrations and
+configuration.
+1. Review server/.env.example.
+2. Add GEMINI_API_KEY to server/.env if the backend AI feature
+   requires it.
+3. Keep the API key on the server. Do not put it in frontend code or
+   commit it to Git.
+4. Allow browser location access when using location-based parking
+   search.
+5. Ensure parking facilities have valid location data for
+   distance-based results.
+Feature availability depends on environment configuration, permissions,
+and the implementation currently in the repository.
+Known Limitations
+1. Payments are simulated; no real payment provider is connected by
+   default.
+2. Physical sensors and gate hardware are not connected by default.
+3. Live availability depends on application data unless a physical
+   integration is implemented.
+4. Production deployment requires environment-specific security and
+   scaling configuration.
+5. Run dependency installation, a production build, and functional
+   tests locally before presenting or deploying the application.
+Future Enhancements
+- Real payment gateway integration
+- Physical parking sensor and IoT integration
+- Automatic number plate recognition
+- Smart gate and boom-barrier integration
+- Improved arrival-time and availability prediction
+- Expanded EV charging support
+- Cloud deployment, monitoring, and automated testing
 
-If the frontend and backend are hosted separately, configure:
+Repository
+https://github.com/VatsalyaKV/ParkEasy
 
-```env
-VITE_API_URL=http://localhost:5000/api
-VITE_SOCKET_URL=http://localhost:5000
-```
-
-## Main API checks
-
-```text
-GET /api/health
-GET /api/ready
-```
-
-Expected when MongoDB is ready:
-
-```json
-{
-  "ready": true,
-  "database": "connected"
-}
-```
-
-## End-to-end demonstration checklist
-
-### Normal flow
-
-- [ ] Register
-- [ ] Login
-- [ ] Add vehicle
-- [ ] Search parking
-- [ ] Open parking location
-- [ ] View live application-based slot state
-- [ ] Select an available slot
-- [ ] Create reservation
-- [ ] Verify payment amount comes from the server
-- [ ] Complete simulated payment
-- [ ] Open QR parking pass
-- [ ] Check in
-- [ ] Verify slot becomes Occupied
-- [ ] Check out
-- [ ] Verify slot becomes Available
-- [ ] Verify notification and booking history
-- [ ] Verify Eco Points update
-
-### Concurrency and failure tests
-
-- [ ] Two users submit the same slot at the same time — only one receives the reservation.
-- [ ] Start payment twice quickly — only one payment is captured.
-- [ ] Submit a fake frontend amount — server still uses `booking.finalAmount`.
-- [ ] Simulate payment failure — payment becomes failed and the hold remains retryable until timeout.
-- [ ] Leave payment pending for the configured hold duration — booking expires and slot returns to Available.
-- [ ] Request the same handover from two users — only one claim succeeds.
-- [ ] Confirm the same handover twice — only the first request completes.
-- [ ] Check in the same QR twice — second request is rejected.
-- [ ] Check out the same QR twice — second request is rejected.
-- [ ] Try another user's booking ID — access is rejected.
-- [ ] Try another owner's location — owner access is rejected.
-- [ ] Disconnect Socket.IO — reconnect and verify the latest slot snapshot is restored from the backend.
-- [ ] Stop MongoDB — readiness changes to unavailable and API failures are controlled.
-
-## Files changed in this rebuild
-
-### Backend
-
-- `server/server.js`
-- `server/config/db.js`
-- `server/middleware/auth.js`
-- `server/middleware/errorHandler.js`
-- `server/middleware/security.js`
-- `server/services/parkingState.js`
-- `server/controllers/bookingController.js`
-- `server/controllers/paymentController.js`
-- `server/controllers/handoverController.js`
-- `server/controllers/slotController.js`
-- `server/controllers/notificationController.js`
-- `server/controllers/adminController.js`
-- `server/controllers/ownerController.js`
-- `server/models/Booking.js`
-- `server/models/ParkingSlot.js`
-- `server/models/Payment.js`
-- `server/models/HandoverRequest.js`
-- `server/models/ParkingLocation.js`
-- `server/models/Notification.js`
-- `server/routes/bookingRoutes.js`
-- `server/.env.example`
-
-### Frontend
-
-- `client/src/services/socket.js`
-- `client/src/context/SocketContext.jsx`
-
-### Documentation
-
-- `README.md`
-- `.env.example`
-
-## Remaining limitations
-
-1. The payment gateway is intentionally simulated for the academic project; no real payment provider is connected.
-2. Physical sensors, ANPR/cameras and boom-barrier controllers are not connected. Application slot state is clearly separated from future physical availability.
-3. In-memory rate limiting is suitable for a university/demo deployment. A distributed deployment should use a shared store such as Redis.
-4. A multi-instance Socket.IO deployment should use the Socket.IO Redis adapter.
-5. MongoDB transactions require Atlas/replica-set deployment for full multi-document atomicity.
-6. Frontend dependency installation/build could not be executed in the rebuild environment when dependencies were not present; run `npm install` followed by `npm run build` locally before demonstration/deployment.
-
-## Project architecture
-
-```text
-React UI
-  │
-  ├── REST API ───────────────┐
-  │                           │
-  └── Authenticated Socket.IO │
-                              ▼
-                    Node / Express API
-                              │
-          ┌───────────────────┼───────────────────┐
-          ▼                   ▼                   ▼
-       Booking             Payment             Handover
-       State Machine       State Machine        State Machine
-          │                   │                   │
-          └───────────────────┼───────────────────┘
-                              ▼
-                         MongoDB
-                     (source of truth)
-                              │
-                    Future sensor/camera
-                    integration boundary
-```
-
-This rebuild intentionally keeps ParkEasy's existing UI and feature set while making its backend state transitions, concurrency handling, security and real-time behavior much closer to a real parking-management system.
-
-
-## ParkEasy AI + Location Setup
-
-1. Copy `server/.env.example` to `server/.env`.
-2. Set `MONGODB_URI`, `JWT_SECRET` (32+ characters), and `CLIENT_URL`.
-3. Add your Gemini key as `GEMINI_API_KEY` in **server/.env only**. Do not put the key in the React client. Google recommends environment variables for Gemini API keys. The current implementation uses the Gemini `generateContent` endpoint from the backend.
-4. Start the API with `cd server && npm install && npm run dev`.
-5. Start the frontend with `cd client && npm install && npm run dev`.
-6. Sign in, open Driver Dashboard, and choose **Use my location**. ParkEasy sends the browser coordinates to the parking API and sorts approved ParkEasy facilities by distance.
-7. The floating **ParkEasy AI** button uses the same live parking options to answer questions such as “Which nearby option is best for my EV?”
-
-### Important
-The uploaded package does not contain a Gemini API key. A real secret key should not be embedded in a ZIP or committed to source control. Add your own key to `server/.env` after extracting the project.
-#   P a r k E a s y  
- 
+License
+No license is currently specified. Add a LICENSE file if you want to
+define the terms under which others may use, modify, or distribute this
+project.
