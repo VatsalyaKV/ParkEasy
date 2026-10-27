@@ -1,0 +1,25 @@
+{
+  "name": "parkeasy-smart-parking-system",
+  "version": "1.0.0",
+  "description": "ParkEasy - Smart Parking Management and Reservation System (Academic Full-Stack Project)",
+  "scripts": {
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev",
+    "start": "cd server && npm start",
+    "seed": "cd server && npm run seed",
+    "build": "cd client && npm run build",
+    "install-all": "npm install && cd server && npm install && cd ../client && npm install"
+  },
+  "keywords": [
+    "smart-parking",
+    "mern",
+    "react",
+    "express",
+    "socket.io",
+    "ecopark",
+    "handover",
+    "smart-arrival"
+  ],
+  "author": "ParkEasy Engineering Team",
+  "license": "MIT"
+}

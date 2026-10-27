@@ -1,0 +1,1660 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --pe-bg: #f5f7f8;
+  --pe-surface: #ffffff;
+  --pe-surface-2: #f8fafb;
+  --pe-border: #e5e9ed;
+  --pe-text: #0c1518;
+  --pe-muted: #68757b;
+  --pe-primary: #13b89d;
+  --pe-primary-dark: #0d8e7c;
+  --pe-primary-soft: #e7faf6;
+  --pe-dark: #071416;
+  --pe-dark-2: #0d2023;
+  --pe-shadow: 0 16px 45px rgba(7, 20, 22, 0.07);
+  --pe-radius: 22px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  font-family: 'DM Sans', Inter, system-ui, sans-serif;
+  background: var(--pe-bg);
+  color: var(--pe-text);
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+::selection {
+  background: rgba(19, 184, 157, 0.2);
+  color: #071416;
+}
+
+/* -------------------------------------------------------
+   SCROLLBAR
+------------------------------------------------------- */
+
+::-webkit-scrollbar {
+  width: 9px;
+  height: 9px;
+}
+
+::-webkit-scrollbar-track {
+  background: #edf1f2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b9c5c8;
+  border-radius: 99px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #91a1a5;
+}
+
+/* -------------------------------------------------------
+   GLOBAL SURFACES
+------------------------------------------------------- */
+
+.pe-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(
+      circle at 80% -10%,
+      rgba(19, 184, 157, 0.08),
+      transparent 32%
+    ),
+    var(--pe-bg);
+}
+
+.pe-surface {
+  background: var(--pe-surface);
+  border: 1px solid var(--pe-border);
+  border-radius: var(--pe-radius);
+  box-shadow: var(--pe-shadow);
+}
+
+.pe-soft {
+  background: var(--pe-surface-2);
+  border: 1px solid var(--pe-border);
+  border-radius: 18px;
+}
+
+.pe-glass {
+  background: rgba(255, 255, 255, 0.76);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+}
+
+/* -------------------------------------------------------
+   PREMIUM NAVBAR
+------------------------------------------------------- */
+
+.pe-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: 76px;
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(229, 233, 237, 0.85);
+}
+
+.pe-navbar-inner {
+  max-width: 1440px;
+  height: 100%;
+  margin: auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.pe-brand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.pe-brand-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: white;
+  font-weight: 900;
+  font-size: 18px;
+  background: linear-gradient(145deg, #15c6a9, #087d70);
+  box-shadow: 0 8px 22px rgba(19, 184, 157, 0.28);
+}
+
+.pe-brand-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  letter-spacing: -0.7px;
+}
+
+.pe-brand-name span {
+  color: var(--pe-primary);
+}
+
+.pe-brand-tagline {
+  color: #879399;
+  font-size: 9px;
+  margin-top: -2px;
+}
+
+.pe-nav-link {
+  position: relative;
+  padding: 9px 12px;
+  color: #5d696e;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: 0.2s ease;
+}
+
+.pe-nav-link:hover {
+  color: var(--pe-text);
+  background: #f2f6f6;
+}
+
+.pe-nav-link.active {
+  color: var(--pe-primary-dark);
+  background: var(--pe-primary-soft);
+}
+
+.pe-nav-link.active::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 4px;
+  height: 4px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: var(--pe-primary);
+}
+
+/* -------------------------------------------------------
+   BUTTON SYSTEM
+------------------------------------------------------- */
+
+.pe-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 17px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 13px;
+  font-weight: 800;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease;
+}
+
+.pe-btn:hover {
+  transform: translateY(-1px);
+}
+
+.pe-btn-primary {
+  color: white;
+  background: linear-gradient(135deg, #14b99f, #0b907f);
+  box-shadow: 0 9px 24px rgba(13, 142, 124, 0.23);
+}
+
+.pe-btn-primary:hover {
+  box-shadow: 0 13px 28px rgba(13, 142, 124, 0.29);
+}
+
+.pe-btn-dark {
+  color: white;
+  background: #071416;
+  box-shadow: 0 9px 24px rgba(7, 20, 22, 0.18);
+}
+
+.pe-btn-secondary {
+  color: #27363a;
+  background: white;
+  border-color: var(--pe-border);
+}
+
+.pe-btn-soft {
+  color: var(--pe-primary-dark);
+  background: var(--pe-primary-soft);
+}
+
+.pe-btn-danger {
+  color: #b42318;
+  background: #fff1f0;
+}
+
+/* -------------------------------------------------------
+   DASHBOARD
+------------------------------------------------------- */
+
+.pe-dashboard {
+  display: grid;
+  grid-template-columns: 252px minmax(0, 1fr);
+  min-height: calc(100vh - 76px);
+}
+
+.pe-sidebar {
+  position: sticky;
+  top: 76px;
+  height: calc(100vh - 76px);
+  padding: 24px 14px;
+  background: #071416;
+  color: white;
+  overflow-y: auto;
+}
+
+.pe-sidebar-profile {
+  margin: 0 7px 22px;
+  padding: 14px;
+  border-radius: 17px;
+  background: rgba(255, 255, 255, 0.055);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.pe-sidebar-avatar {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #16bfa5, #08786c);
+  font-weight: 900;
+}
+
+.pe-sidebar-label {
+  margin: 22px 10px 8px;
+  color: #728286;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.pe-sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  margin: 3px 0;
+  padding: 11px 12px;
+  border-radius: 12px;
+  color: #aab8bb;
+  font-size: 13px;
+  font-weight: 600;
+  transition: 0.18s ease;
+}
+
+.pe-sidebar-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.pe-sidebar-link.active {
+  color: #05201b;
+  background: #c7f6ed;
+  box-shadow: 0 7px 22px rgba(19, 184, 157, 0.12);
+}
+
+.pe-main {
+  min-width: 0;
+  padding: 28px;
+}
+
+/* -------------------------------------------------------
+   DASHBOARD HERO
+------------------------------------------------------- */
+
+.pe-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 290px;
+  padding: 34px;
+  color: white;
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(19, 184, 157, 0.25),
+      transparent 28%
+    ),
+    linear-gradient(135deg, #071416 0%, #0b2427 100%);
+  box-shadow: 0 22px 55px rgba(7, 20, 22, 0.18);
+}
+
+.pe-hero::after {
+  content: '';
+  position: absolute;
+  right: -100px;
+  bottom: -160px;
+  width: 390px;
+  height: 390px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.pe-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 10px;
+  color: #79ead8;
+  background: rgba(19, 184, 157, 0.1);
+  border: 1px solid rgba(19, 184, 157, 0.2);
+  border-radius: 99px;
+  font-size: 9px;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+}
+
+.pe-hero-title {
+  max-width: 700px;
+  margin-top: 18px;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 1.04;
+  letter-spacing: -1.8px;
+  font-weight: 800;
+}
+
+.pe-hero-title span {
+  color: #58dfcc;
+}
+
+.pe-hero-description {
+  max-width: 610px;
+  margin-top: 15px;
+  color: #aebcbe;
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+/* -------------------------------------------------------
+   STATS
+------------------------------------------------------- */
+
+.pe-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.pe-stat {
+  position: relative;
+  overflow: hidden;
+  padding: 20px;
+  background: white;
+  border: 1px solid var(--pe-border);
+  border-radius: 20px;
+  transition: 0.2s ease;
+}
+
+.pe-stat:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--pe-shadow);
+}
+
+.pe-stat-icon {
+  width: 39px;
+  height: 39px;
+  display: grid;
+  place-items: center;
+  border-radius: 12px;
+  color: var(--pe-primary-dark);
+  background: var(--pe-primary-soft);
+}
+
+.pe-stat-value {
+  margin-top: 18px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 25px;
+  font-weight: 800;
+  letter-spacing: -0.8px;
+}
+
+.pe-stat-label {
+  color: #7b878c;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+/* -------------------------------------------------------
+   PARKING LOCATION CARDS
+------------------------------------------------------- */
+
+.pe-location-card {
+  overflow: hidden;
+  background: white;
+  border: 1px solid var(--pe-border);
+  border-radius: 20px;
+  transition: 0.22s ease;
+}
+
+.pe-location-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--pe-shadow);
+}
+
+.pe-location-image {
+  position: relative;
+  height: 170px;
+  overflow: hidden;
+}
+
+.pe-location-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.pe-location-card:hover .pe-location-image img {
+  transform: scale(1.045);
+}
+
+.pe-location-body {
+  padding: 18px;
+}
+
+.pe-location-name {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 800;
+  font-size: 16px;
+}
+
+.pe-location-meta {
+  margin-top: 6px;
+  color: #7c898d;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.pe-availability {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #087a69;
+  background: #e9faf6;
+  border-radius: 99px;
+  padding: 5px 8px;
+  font-size: 10px;
+  font-weight: 800;
+}
+
+.pe-availability-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #12b896;
+}
+
+/* -------------------------------------------------------
+   SEARCH EXPERIENCE
+------------------------------------------------------- */
+
+.pe-search-shell {
+  display: grid;
+  grid-template-columns: 390px minmax(0, 1fr);
+  min-height: calc(100vh - 76px);
+}
+
+.pe-search-panel {
+  padding: 26px;
+  background: white;
+  border-right: 1px solid var(--pe-border);
+  overflow-y: auto;
+}
+
+.pe-search-map {
+  position: relative;
+  min-height: 620px;
+  background:
+    linear-gradient(rgba(7, 20, 22, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(7, 20, 22, 0.04) 1px, transparent 1px),
+    #eaf0ee;
+  background-size: 42px 42px;
+}
+
+.pe-map-glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  left: 50%;
+  top: 45%;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: rgba(19, 184, 157, 0.12);
+  filter: blur(30px);
+}
+
+.pe-map-pin {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  color: white;
+  background: #071416;
+  border: 4px solid white;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 8px 25px rgba(7, 20, 22, 0.2);
+}
+
+.pe-map-pin svg {
+  transform: rotate(45deg);
+}
+
+.pe-map-user {
+  width: 17px;
+  height: 17px;
+  border: 4px solid white;
+  border-radius: 50%;
+  background: var(--pe-primary);
+  box-shadow:
+    0 0 0 8px rgba(19, 184, 157, 0.18),
+    0 5px 18px rgba(19, 184, 157, 0.35);
+}
+
+/* -------------------------------------------------------
+   FORM CONTROLS
+------------------------------------------------------- */
+
+.pe-input {
+  width: 100%;
+  height: 45px;
+  padding: 0 13px;
+  color: var(--pe-text);
+  background: white;
+  border: 1px solid #dfe5e7;
+  border-radius: 12px;
+  outline: none;
+  transition: 0.18s ease;
+}
+
+.pe-input:focus {
+  border-color: var(--pe-primary);
+  box-shadow: 0 0 0 4px rgba(19, 184, 157, 0.1);
+}
+
+.pe-label {
+  display: block;
+  margin-bottom: 7px;
+  color: #526166;
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* -------------------------------------------------------
+   BOOKING / PAYMENT
+------------------------------------------------------- */
+
+.pe-checkout {
+  max-width: 1120px;
+  margin: auto;
+}
+
+.pe-checkout-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 360px;
+  gap: 22px;
+}
+
+.pe-summary {
+  position: sticky;
+  top: 100px;
+  align-self: start;
+}
+
+.pe-price {
+  font-family: 'Manrope', sans-serif;
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -1px;
+}
+
+.pe-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.pe-step-number {
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: white;
+  background: var(--pe-primary);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.pe-step-line {
+  flex: 1;
+  height: 1px;
+  background: #dce4e5;
+}
+
+/* -------------------------------------------------------
+   ANIMATIONS
+------------------------------------------------------- */
+
+@keyframes peFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.pe-animate {
+  animation: peFadeUp 0.45s ease both;
+}
+
+@keyframes pePulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.65;
+    transform: scale(1.08);
+  }
+}
+
+.pe-pulse {
+  animation: pePulse 1.8s ease-in-out infinite;
+}
+
+/* -------------------------------------------------------
+   DARK MODE
+------------------------------------------------------- */
+
+html.dark {
+  --pe-bg: #061012;
+  --pe-surface: #0d1b1e;
+  --pe-surface-2: #102124;
+  --pe-border: #203438;
+  --pe-text: #edf7f5;
+  --pe-muted: #91a5a8;
+}
+
+html.dark body {
+  background: var(--pe-bg);
+  color: var(--pe-text);
+}
+
+html.dark .pe-navbar {
+  background: rgba(6, 16, 18, 0.9);
+  border-color: #203438;
+}
+
+html.dark .pe-nav-link {
+  color: #9eb0b3;
+}
+
+html.dark .pe-nav-link:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.05);
+}
+
+html.dark .pe-surface,
+html.dark .pe-stat,
+html.dark .pe-location-card {
+  background: var(--pe-surface);
+  border-color: var(--pe-border);
+}
+
+html.dark .pe-soft {
+  background: var(--pe-surface-2);
+  border-color: var(--pe-border);
+}
+
+html.dark .pe-input {
+  color: white;
+  background: #0d1b1e;
+  border-color: #294044;
+}
+
+html.dark .pe-search-panel {
+  background: #0d1b1e;
+  border-color: #203438;
+}
+
+html.dark .pe-search-map {
+  background-color: #122326;
+}
+
+html.dark .pe-location-meta,
+html.dark .pe-stat-label {
+  color: #91a5a8;
+}
+
+/* -------------------------------------------------------
+   RESPONSIVE
+------------------------------------------------------- */
+
+@media (max-width: 1100px) {
+  .pe-dashboard {
+    grid-template-columns: 220px minmax(0, 1fr);
+  }
+
+  .pe-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .pe-search-shell {
+    grid-template-columns: 340px minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .pe-dashboard {
+    display: block;
+  }
+
+  .pe-sidebar {
+    display: none;
+  }
+
+  .pe-main {
+    padding: 18px;
+  }
+
+  .pe-search-shell {
+    display: block;
+  }
+
+  .pe-search-panel {
+    border-right: 0;
+  }
+
+  .pe-search-map {
+    min-height: 480px;
+  }
+
+  .pe-checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .pe-summary {
+    position: static;
+  }
+}
+
+@media (max-width: 640px) {
+  .pe-navbar {
+    height: 68px;
+  }
+
+  .pe-navbar-inner {
+    padding: 0 16px;
+  }
+
+  .pe-brand-tagline {
+    display: none;
+  }
+
+  .pe-main {
+    padding: 13px;
+  }
+
+  .pe-hero {
+    min-height: auto;
+    padding: 25px 20px;
+    border-radius: 22px;
+  }
+
+  .pe-hero-title {
+    font-size: 31px;
+  }
+
+  .pe-stat-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 9px;
+  }
+
+  .pe-stat {
+    padding: 15px;
+  }
+
+  .pe-stat-value {
+    font-size: 20px;
+  }
+
+  .pe-search-panel {
+    padding: 17px;
+  }
+}
+
+
+/* =========================================================
+   PARKEASY — COMPLETE LIGHT / DARK MODE OVERRIDES
+   Added without removing or changing the existing design
+   ========================================================= */
+
+/* -------------------- LIGHT MODE -------------------- */
+
+:root {
+  --pe-input-bg: #ffffff;
+  --pe-input-text: #0c1518;
+  --pe-placeholder: #8a969b;
+}
+
+/* -------------------- DARK MODE -------------------- */
+
+html.dark {
+  color-scheme: dark;
+
+  --pe-bg: #05090b;
+  --pe-surface: #0b1215;
+  --pe-surface-2: #101a1e;
+  --pe-border: #233238;
+  --pe-text: #f4fbf9;
+  --pe-muted: #9aaeb2;
+
+  --pe-input-bg: #0c171b;
+  --pe-input-text: #f4fbf9;
+  --pe-placeholder: #71858a;
+
+  background: #05090b !important;
+}
+
+/* -------------------- PAGE / BODY / ROOT -------------------- */
+
+html.dark,
+html.dark body,
+html.dark #root {
+  background-color: #05090b !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark body {
+  min-height: 100vh;
+}
+
+/* -------------------- TEXT -------------------- */
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark p,
+html.dark label,
+html.dark li,
+html.dark td,
+html.dark th {
+  border-color: #233238;
+}
+
+html.dark h1,
+html.dark h2,
+html.dark h3,
+html.dark h4,
+html.dark h5,
+html.dark h6,
+html.dark .pe-page-title,
+html.dark .pe-section-title {
+  color: #f4fbf9 !important;
+}
+
+html.dark .text-slate-950,
+html.dark .text-slate-900,
+html.dark .text-gray-900 {
+  color: #f4fbf9 !important;
+}
+
+html.dark .text-slate-800,
+html.dark .text-gray-800 {
+  color: #e5f1ef !important;
+}
+
+html.dark .text-slate-700,
+html.dark .text-gray-700 {
+  color: #d0dfdc !important;
+}
+
+html.dark .text-slate-600,
+html.dark .text-slate-500,
+html.dark .text-gray-600,
+html.dark .text-gray-500 {
+  color: #9aaeb2 !important;
+}
+
+/* -------------------- BACKGROUNDS -------------------- */
+
+html.dark .bg-white {
+  background-color: #0b1215 !important;
+}
+
+html.dark .bg-slate-50,
+html.dark .bg-gray-50 {
+  background-color: #070e11 !important;
+}
+
+html.dark .bg-slate-100,
+html.dark .bg-gray-100 {
+  background-color: #101a1e !important;
+}
+
+/* -------------------- BORDERS -------------------- */
+
+html.dark .border-slate-100,
+html.dark .border-slate-200,
+html.dark .border-slate-300,
+html.dark .border-gray-100,
+html.dark .border-gray-200,
+html.dark .border-gray-300 {
+  border-color: #293b40 !important;
+}
+
+/* -------------------- MAIN PARK EASY SURFACES -------------------- */
+
+html.dark .pe-page {
+  background:
+    radial-gradient(
+      circle at 80% -10%,
+      rgba(19, 184, 157, 0.10),
+      transparent 32%
+    ),
+    #05090b !important;
+}
+
+html.dark .pe-surface,
+html.dark .pe-stat,
+html.dark .pe-location-card {
+  background: #0b1215 !important;
+  border-color: #233238 !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark .pe-soft {
+  background: #101a1e !important;
+  border-color: #233238 !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark .pe-glass {
+  background: rgba(11, 18, 21, 0.90) !important;
+  border-color: rgba(72, 94, 99, 0.55) !important;
+}
+
+/* -------------------- NAVBAR -------------------- */
+
+html.dark .pe-navbar {
+  background: rgba(5, 9, 11, 0.94) !important;
+  border-bottom-color: #233238 !important;
+}
+
+html.dark .pe-nav-link {
+  color: #a8b8bb !important;
+}
+
+html.dark .pe-nav-link:hover {
+  color: #ffffff !important;
+  background: #101a1e !important;
+}
+
+html.dark .pe-nav-link.active {
+  color: #5de0cc !important;
+  background: rgba(19, 184, 157, 0.12) !important;
+}
+
+html.dark .pe-brand-name {
+  color: #f4fbf9 !important;
+}
+
+html.dark .pe-brand-tagline {
+  color: #83979b !important;
+}
+
+/* -------------------- SIDEBAR -------------------- */
+
+html.dark .pe-sidebar {
+  background: #04090b !important;
+  color: #ffffff !important;
+  border-right: 1px solid #17272b;
+}
+
+html.dark .pe-sidebar-link {
+  color: #a7b7ba !important;
+}
+
+html.dark .pe-sidebar-link:hover {
+  color: #ffffff !important;
+  background: rgba(255, 255, 255, 0.06) !important;
+}
+
+html.dark .pe-sidebar-link.active {
+  color: #04221c !important;
+  background: #72ead7 !important;
+}
+
+html.dark .pe-sidebar-label {
+  color: #718589 !important;
+}
+
+html.dark .pe-sidebar-profile {
+  background: rgba(255, 255, 255, 0.045) !important;
+  border-color: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* -------------------- MAIN CONTENT -------------------- */
+
+html.dark .pe-main {
+  background: transparent !important;
+}
+
+/* -------------------- HERO -------------------- */
+
+html.dark .pe-hero {
+  background:
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(19, 184, 157, 0.20),
+      transparent 30%
+    ),
+    linear-gradient(
+      135deg,
+      #03090b 0%,
+      #0b1e22 100%
+    ) !important;
+}
+
+html.dark .pe-hero-description {
+  color: #aebfc2 !important;
+}
+
+/* -------------------- STATS -------------------- */
+
+html.dark .pe-stat-value {
+  color: #f4fbf9 !important;
+}
+
+html.dark .pe-stat-label {
+  color: #91a5a8 !important;
+}
+
+/* -------------------- LOCATION CARDS -------------------- */
+
+html.dark .pe-location-name {
+  color: #f4fbf9 !important;
+}
+
+html.dark .pe-location-meta {
+  color: #91a5a8 !important;
+}
+
+html.dark .pe-availability {
+  color: #65e3cf !important;
+  background: rgba(19, 184, 157, 0.12) !important;
+}
+
+/* -------------------- SEARCH -------------------- */
+
+html.dark .pe-search-panel {
+  background: #0b1215 !important;
+  border-color: #233238 !important;
+}
+
+html.dark .pe-search-map {
+  background:
+    linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+    #091417 !important;
+  background-size: 42px 42px;
+}
+
+/* -------------------- INPUTS / TEXTAREA / SELECT -------------------- */
+/* This specifically fixes invisible text while typing in dark mode. */
+
+html.dark input,
+html.dark textarea,
+html.dark select {
+  color: #f4fbf9 !important;
+  background-color: #0c171b !important;
+  border-color: #34464b !important;
+  caret-color: #5de0cc !important;
+  -webkit-text-fill-color: #f4fbf9 !important;
+}
+
+html.dark input:focus,
+html.dark textarea:focus,
+html.dark select:focus {
+  color: #ffffff !important;
+  background-color: #0d1a1e !important;
+  border-color: #13b89d !important;
+  caret-color: #5de0cc !important;
+  -webkit-text-fill-color: #ffffff !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(19, 184, 157, 0.14) !important;
+}
+
+html.dark input::placeholder,
+html.dark textarea::placeholder {
+  color: #71858a !important;
+  opacity: 1 !important;
+}
+
+html.dark option {
+  background: #0b1215 !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark .pe-input {
+  color: #f4fbf9 !important;
+  background: #0c171b !important;
+  border-color: #34464b !important;
+  caret-color: #5de0cc !important;
+  -webkit-text-fill-color: #f4fbf9 !important;
+}
+
+html.dark .pe-input::placeholder {
+  color: #71858a !important;
+}
+
+/* -------------------- LABELS -------------------- */
+
+html.dark .pe-label {
+  color: #b6c6c9 !important;
+}
+
+/* -------------------- BUTTONS -------------------- */
+
+html.dark .pe-btn-secondary {
+  color: #e3efed !important;
+  background: #162327 !important;
+  border-color: #34464b !important;
+}
+
+html.dark .pe-btn-soft {
+  color: #65e3cf !important;
+  background: rgba(19, 184, 157, 0.12) !important;
+}
+
+html.dark .pe-btn-dark {
+  color: #ffffff !important;
+  background: #152328 !important;
+}
+
+/* Keep primary buttons bright in both themes */
+html.dark .pe-btn-primary {
+  color: #ffffff !important;
+}
+
+/* -------------------- DROPDOWNS / MENUS -------------------- */
+
+html.dark .dropdown-menu,
+html.dark [role="menu"],
+html.dark .absolute.bg-white {
+  background: #0b1215 !important;
+  color: #f4fbf9 !important;
+  border-color: #293b40 !important;
+}
+
+html.dark [role="menu"] a,
+html.dark [role="menu"] button {
+  color: #d0dfdc !important;
+}
+
+html.dark [role="menu"] a:hover,
+html.dark [role="menu"] button:hover {
+  background: #101a1e !important;
+  color: #ffffff !important;
+}
+
+/* -------------------- MODALS / DIALOGS -------------------- */
+
+html.dark .modal,
+html.dark [role="dialog"] {
+  background: #0b1215 !important;
+  color: #f4fbf9 !important;
+  border-color: #293b40 !important;
+}
+
+html.dark .fixed .bg-white {
+  background: #0b1215 !important;
+  color: #f4fbf9 !important;
+}
+
+/* -------------------- TABLES -------------------- */
+
+html.dark table {
+  color: #e7f1ef !important;
+}
+
+html.dark thead,
+html.dark th {
+  background: #101a1e !important;
+  color: #c9d9d7 !important;
+  border-color: #293b40 !important;
+}
+
+html.dark td {
+  color: #d7e4e2 !important;
+  border-color: #233238 !important;
+}
+
+html.dark tbody tr:hover {
+  background: #0e191d !important;
+}
+
+/* -------------------- LINKS -------------------- */
+
+html.dark a {
+  color: inherit;
+}
+
+html.dark a:hover {
+  color: #5de0cc;
+}
+
+/* -------------------- COMMON TAILWIND TEXT OVERRIDES -------------------- */
+
+html.dark .text-black {
+  color: #ffffff !important;
+}
+
+html.dark .text-white {
+  color: #ffffff !important;
+}
+
+html.dark .text-emerald-700 {
+  color: #65e3cf !important;
+}
+
+html.dark .bg-emerald-50 {
+  background: rgba(19, 184, 157, 0.12) !important;
+}
+
+html.dark .bg-slate-100.text-slate-700 {
+  background: #18262a !important;
+  color: #d5e2df !important;
+}
+
+/* -------------------- DIVIDERS -------------------- */
+
+html.dark hr,
+html.dark .border-t,
+html.dark .border-b {
+  border-color: #233238 !important;
+}
+
+/* -------------------- SCROLLBAR -------------------- */
+
+html.dark ::-webkit-scrollbar-track {
+  background: #05090b !important;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #26383d !important;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3a5056 !important;
+}
+
+/* -------------------- SELECTION -------------------- */
+
+html.dark ::selection {
+  background: rgba(19, 184, 157, 0.30);
+  color: #ffffff;
+}
+
+/* =========================================================
+   FINAL THEME OVERRIDES
+   Landing/Home page + Tailwind utility compatibility
+   ========================================================= */
+
+html.dark body,
+html.dark #root,
+html.dark #root > div {
+  background: #05090b !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark main {
+  background: #05090b !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark main > div,
+html.dark main > section,
+html.dark main > article {
+  border-color: #233238;
+}
+
+/* HOME / LANDING HERO */
+html.dark .home-page,
+html.dark .homepage,
+html.dark .landing-page,
+html.dark .home,
+html.dark .hero-section,
+html.dark .home-hero,
+html.dark .landing-hero,
+html.dark .hero {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(19, 184, 157, 0.16), transparent 30%),
+    linear-gradient(135deg, #05090b 0%, #071417 52%, #05090b 100%) !important;
+  color: #f4fbf9 !important;
+}
+
+html.dark main > div.min-h-screen,
+html.dark main > div[class*="min-h-screen"],
+html.dark main > section[class*="min-h-screen"] {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(19, 184, 157, 0.12), transparent 30%),
+    #05090b !important;
+  color: #f4fbf9 !important;
+}
+
+/* LIGHT TAILWIND BACKGROUNDS */
+html.dark main .bg-white,
+html.dark main .bg-slate-50,
+html.dark main .bg-slate-100,
+html.dark main .bg-gray-50,
+html.dark main .bg-gray-100,
+html.dark main .bg-zinc-50,
+html.dark main .bg-neutral-50,
+html.dark main .bg-neutral-100,
+html.dark main [class~="bg-white"],
+html.dark main [class*="bg-white/"] {
+  background-color: #0b1215 !important;
+  color: #f4fbf9 !important;
+}
+
+/* LIGHT GRADIENTS */
+html.dark main .from-white,
+html.dark main .via-white,
+html.dark main .to-white,
+html.dark main .from-slate-50,
+html.dark main .via-slate-50,
+html.dark main .to-slate-50,
+html.dark main .from-gray-50,
+html.dark main .via-gray-50,
+html.dark main .to-gray-50 {
+  --tw-gradient-from: #05090b !important;
+  --tw-gradient-via: #081316 !important;
+  --tw-gradient-to: #05090b !important;
+}
+
+/* HERO TEXT */
+html.dark main h1,
+html.dark main h2,
+html.dark main h3,
+html.dark main h4,
+html.dark main h5,
+html.dark main h6 {
+  color: #f4fbf9 !important;
+}
+
+html.dark main p {
+  color: #aebfc2 !important;
+}
+
+html.dark main strong,
+html.dark main b {
+  color: #f4fbf9 !important;
+}
+
+html.dark main .text-slate-950,
+html.dark main .text-slate-900,
+html.dark main .text-gray-950,
+html.dark main .text-gray-900,
+html.dark main .text-zinc-900,
+html.dark main .text-neutral-900 {
+  color: #f4fbf9 !important;
+}
+
+html.dark main .text-slate-800,
+html.dark main .text-gray-800,
+html.dark main .text-zinc-800,
+html.dark main .text-neutral-800 {
+  color: #e5f1ef !important;
+}
+
+html.dark main .text-slate-700,
+html.dark main .text-gray-700,
+html.dark main .text-zinc-700,
+html.dark main .text-neutral-700 {
+  color: #d0dfdc !important;
+}
+
+html.dark main .text-slate-600,
+html.dark main .text-gray-600,
+html.dark main .text-zinc-600,
+html.dark main .text-neutral-600 {
+  color: #aebfc2 !important;
+}
+
+html.dark main .text-slate-500,
+html.dark main .text-gray-500,
+html.dark main .text-zinc-500,
+html.dark main .text-neutral-500 {
+  color: #91a5a8 !important;
+}
+
+html.dark main .text-white {
+  color: #ffffff !important;
+}
+
+/* BRAND / TEAL */
+html.dark main .text-emerald-400,
+html.dark main .text-emerald-500,
+html.dark main .text-emerald-600,
+html.dark main .text-emerald-700,
+html.dark main .text-teal-400,
+html.dark main .text-teal-500,
+html.dark main .text-teal-600,
+html.dark main .text-cyan-400,
+html.dark main .text-cyan-500 {
+  color: #5de0cc !important;
+}
+
+html.dark main .bg-emerald-50,
+html.dark main .bg-teal-50,
+html.dark main .bg-cyan-50 {
+  background-color: rgba(19, 184, 157, 0.10) !important;
+}
+
+html.dark main .border-emerald-100,
+html.dark main .border-emerald-200,
+html.dark main .border-teal-100,
+html.dark main .border-teal-200,
+html.dark main .border-cyan-100,
+html.dark main .border-cyan-200 {
+  border-color: rgba(93, 224, 204, 0.30) !important;
+}
+
+/* CARDS */
+html.dark main .rounded-xl.bg-white,
+html.dark main .rounded-2xl.bg-white,
+html.dark main .rounded-3xl.bg-white {
+  background: #0b1215 !important;
+  color: #f4fbf9 !important;
+  border-color: #26383d !important;
+}
+
+/* INPUTS */
+html.dark main input,
+html.dark main textarea,
+html.dark main select {
+  background: #0c171b !important;
+  color: #f4fbf9 !important;
+  -webkit-text-fill-color: #f4fbf9 !important;
+  caret-color: #5de0cc !important;
+  border-color: #34464b !important;
+}
+
+html.dark main input::placeholder,
+html.dark main textarea::placeholder {
+  color: #71858a !important;
+  opacity: 1 !important;
+}
+
+html.dark main input:focus,
+html.dark main textarea:focus,
+html.dark main select:focus {
+  background: #0d1a1e !important;
+  color: #ffffff !important;
+  -webkit-text-fill-color: #ffffff !important;
+  border-color: #13b89d !important;
+  box-shadow: 0 0 0 3px rgba(19, 184, 157, 0.14) !important;
+  outline: none !important;
+}
+
+/* HOME STAT NUMBERS */
+html.dark main .text-3xl,
+html.dark main .text-4xl,
+html.dark main .text-5xl,
+html.dark main .text-6xl,
+html.dark main .text-7xl {
+  color: #f4fbf9 !important;
+}
+
+/* BUTTONS */
+html.dark main .bg-slate-950,
+html.dark main .bg-gray-950,
+html.dark main .bg-black {
+  background-color: #111c20 !important;
+  color: #ffffff !important;
+}
+
+html.dark main .bg-emerald-500,
+html.dark main .bg-emerald-600,
+html.dark main .bg-teal-500,
+html.dark main .bg-teal-600 {
+  background-color: #13b89d !important;
+  color: #ffffff !important;
+}
+
+/* INLINE LIGHT STYLES */
+html.dark main [style*="background-color: white"],
+html.dark main [style*="background-color:#fff"],
+html.dark main [style*="background-color: #fff"],
+html.dark main [style*="background: white"],
+html.dark main [style*="background:#fff"],
+html.dark main [style*="background: #fff"] {
+  background: #0b1215 !important;
+  color: #f4fbf9 !important;
+}
+
+/* MAP */
+html.dark main .pe-search-map,
+html.dark main .map-container,
+html.dark main .parking-map {
+  background-color: #091417 !important;
+  color: #f4fbf9 !important;
+}
+
+/* FOOTER */
+html.dark footer {
+  background: #030708 !important;
+  color: #aebfc2 !important;
+  border-color: #233238 !important;
+}
+
+html.dark footer h1,
+html.dark footer h2,
+html.dark footer h3,
+html.dark footer h4,
+html.dark footer strong {
+  color: #f4fbf9 !important;
+}
+
+html.dark footer p,
+html.dark footer span {
+  color: #91a5a8 !important;
+}
+
+/* LIGHT MODE */
+html:not(.dark) body,
+html:not(.dark) #root {
+  background-color: #f5f7f8;
+  color: #0c1518;
+}
+
+html:not(.dark) input,
+html:not(.dark) textarea,
+html:not(.dark) select {
+  color: #0c1518;
+  background-color: #ffffff;
+}
+
+/* DARK SCROLLBAR */
+html.dark {
+  scrollbar-color: #26383d #05090b;
+}
+
+html.dark ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+html.dark ::-webkit-scrollbar-track {
+  background: #05090b !important;
+}
+
+html.dark ::-webkit-scrollbar-thumb {
+  background: #26383d !important;
+  border-radius: 999px;
+}
+
+html.dark ::-webkit-scrollbar-thumb:hover {
+  background: #3a5056 !important;
+}
+
+
